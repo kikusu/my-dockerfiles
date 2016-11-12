@@ -1,0 +1,11 @@
+machine:
+  python:
+    version: 2.7.11
+
+dependencies:
+  pre:
+    - pip install -U docker-compose
+
+test:
+  post:
+    - find . -name docker-compose.yml | xargs -I % -t docker-compose -f % config -q
