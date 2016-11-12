@@ -8,5 +8,4 @@ dependencies:
 
 test:
   post:
-    - find . -name docker-compose.yml | xargs xargs -I % -t docker-compose -f % config -q
-
+    - find . -name docker-compose.yml | xargs -I % -t docker-compose -f % config -q
