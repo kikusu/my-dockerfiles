@@ -1,0 +1,35 @@
+version: "2"
+services:
+  redis-c1:
+    extends:
+      file: base-docker-compose.yml
+      service: base
+    container_name: redis-c1
+    volumes:
+      - ./redis.conf:/usr/local/etc/redis/redis.conf
+  redis-c2:
+    extends:
+      file: base-docker-compose.yml
+      service: base
+    container_name: redis-c2
+    volumes:
+      - ./redis.conf:/usr/local/etc/redis/redis.conf
+  redis-c3:
+    extends:
+      file: base-docker-compose.yml
+      service: base
+    container_name: redis-c3
+    volumes:
+      - ./redis.conf:/usr/local/etc/redis/redis.conf
+  cluster_config:
+    build:
+      context: .
+      dockerfile: redis-trib.dockerfile
+    command: >-
+      bash -c "
+        yes 'yes' | ./redis-trib.rb create `dig +short redis-c1`:7000 `dig +short redis-c2`:7000 `dig +short redis-c3`:7000
+      "
+    depends_on:
+      - redis-c1
+      - redis-c2
+      - redis-c3

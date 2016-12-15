@@ -1,0 +1,5 @@
+version: "2"
+services:
+  base:
+    image: redis
+    command: redis-server /usr/local/etc/redis/redis.conf
